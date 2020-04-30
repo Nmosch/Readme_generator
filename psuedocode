@@ -1,0 +1,42 @@
+Using inquirer, gather required information thru prompts:
+inquirer
+.prompt([    
+    {
+        type: "input"
+        message: "the action"
+        name:
+    }
+])
+
+
+  * Title
+  * Description
+  * Table of Contents
+  * Installation
+  * Usage
+  * License
+  * Contributing
+  * Tests
+  * Questions
+  * Badge
+
+  .then((data) =>
+
+Using axios, parse data from github call
+    axios
+    .get(queryURL)
+    .then((res)
+    
+
+
+    fs.writeFile('README.md', data, (err) => {
+     if (err) throw err;
+    console.log('The file has been saved!');
+        });
+    )
+  )
+
+
+
+
+writeFile to create readme.md
