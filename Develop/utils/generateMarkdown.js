@@ -1,26 +1,30 @@
-function generateMarkdown(data) {
-  const queryUrl = `https://api.github.com/users/${username}/events/public`;
-  axios
-      .get(queryUrl)
-      .then(function (res) {
-          
-          let githubProfilePic = res.actor.avatar_url;
-          let githubEmail = res.payload.commits.author.email;
-          console.log(githubEmail)
-          console.log(githubProfilePic)
-          })
-      .catch()
+const fs = require("fs");
+const axios = require("axios");
 
+function generateMarkdown(data) {
+  
   return `
   # Your Project Title
-    ${data.title};
+  ${data.title};
 
   ## Description 
   
   ${data.description};
   
   ## Table of Contents
-  
+
+* [Installation](#Installation)
+    
+* [Usage](#Usage)
+    
+* [Credits](#Credits)
+
+* [Contributing](#Contributing)
+    
+* [Tests](#Tests)
+
+* [Questions](#Questions)
+
   ## Installation
     
   ${data.installation}
@@ -32,28 +36,25 @@ function generateMarkdown(data) {
   ## Credits
 
   ${data.credit}
-  
-  ## License
-  
-  ${data.license}
-  
-  ---
-  
-  ## Badges
-  
-  ![badmath](https://img.shields.io/github/languages/top/nielsenjared/badmath)
-  https://img.shields.io/github/license/${username}/${repoName}
+
   ## Contributing
 
   ${data.contribute}
     
   ## Tests
   
-  ${data.test}
+  ${data.tests}
 
   ## Questions
 
-  Contact me at 
+  ![alt text](${data.githubProfilePic})
+
+  Contact me with questions at ${data.githubEmail}
+
+  ## License
+  
+  ![badmath](https://img.shields.io/github/languages/top/nielsenjared/badmath)
+  ![alt text](https://img.shields.io/github/license/${data.username}/${data.repoName})
 `;
 }
 

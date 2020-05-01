@@ -51,8 +51,40 @@ inquirer
             message: "Please list how to contribute to your application.",
             name: "contribute"
         }
-    ]).then( (data) => {
+    ]).then( (input) => {
 
-        let { username, title, description, installation, usage, credit, tests, contribute } = data
-                   
-    });
+        const { username, repoName, title, description, installation, usage, credit, tests, contribute } = input
+        
+        data.title = title
+        data.description = description
+        data.installation = installation
+        data.usage = usage
+        data.credit = credit
+        data.tests = tests
+        data.contribute = contribute
+        data.repoName = repoName
+        data.username = username
+
+        const queryUrl = `https://api.github.com/users/${username}/events/public`;
+        axios
+            .get(queryUrl)
+            .then((res) => {
+                
+                let githubProfilePic = res.data[0].actor.avatar_url;
+                let githubEmail = res.data[2].payload.commits[0].author.email;
+
+                data.githubProfilePic = githubProfilePic;
+                data.githubEmail = githubEmail;
+
+                console.log(data);
+
+                const README = markdownGenerator(data);
+
+                fs.writeFile("./README.md", README, function(err){
+                    console.log("Success!");
+                })
+
+                })
+            .catch(err => console.log(err));
+    
+    }).catch(err => console.log(err));
