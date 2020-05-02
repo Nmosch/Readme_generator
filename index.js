@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 const axios = require("axios");
 const markdownGenerator = require("./Develop/utils/generateMarkdown");
 const data = {};
+const licenseGenerator = require("./Develop/utils/generateLicense");
 
 inquirer
     .prompt([
@@ -51,10 +52,10 @@ inquirer
             message: "Please list how to contribute to your application.",
             name: "contribute"
         }
-    ]).then( (input) => {
+    ]).then((input) => {
 
         const { username, repoName, title, description, installation, usage, credit, tests, contribute } = input
-        
+
         data.title = title
         data.description = description
         data.installation = installation
@@ -69,10 +70,23 @@ inquirer
         axios
             .get(queryUrl)
             .then((res) => {
+                let githubEmail = "N/A";
+                let githubProfilePic = "";
+                res.data.forEach(githubData => {
+                    githubProfilePic = githubData.actor.avatar_url;
+                    if (githubData.type === "PushEvent"){
+                        githubEmail = githubData.payload.commits[0].author.email;                        
+                    } 
+                })
                 
-                let githubProfilePic = res.data[0].actor.avatar_url;
-                let githubEmail = res.data[2].payload.commits[0].author.email;
+                //     let pushEvertArray = res.data.filter(githubData => {
+                //         return githubData.type === "PushEvent";
 
+                //     })
+
+                //     console.log(pushEvertArray[0])
+                // githubEmail = pushEvertArray[0].payload.commits[0].author.email
+                // githubProfilePic = pushEvertArray[0].actor.avatar_url;
                 data.githubProfilePic = githubProfilePic;
                 data.githubEmail = githubEmail;
 
@@ -80,11 +94,24 @@ inquirer
 
                 const README = markdownGenerator(data);
 
-                fs.writeFile("./README.md", README, function(err){
-                    console.log("Success!");
-                })
+                axios
+                    .get(`https://api.github.com/users/${username}`)
+                    .then((res) => {
 
-                })
+                        data.name = res.data.name
+                        const LICENSE = licenseGenerator(data);
+
+                        fs.writeFile("./LICENSE.txt", LICENSE, (err) => {
+                            console.log("Success!");
+                        });
+
+                        fs.writeFile("./README.md", README,  (err) => {
+                            console.log("Success!");
+                        })
+
+                    })
+
+            })
             .catch(err => console.log(err));
-    
+
     }).catch(err => console.log(err));

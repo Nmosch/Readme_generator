@@ -53,8 +53,8 @@ function generateMarkdown(data) {
 
   ## License
   
-  ![badmath](https://img.shields.io/github/languages/top/nielsenjared/badmath)
   ![alt text](https://img.shields.io/github/license/${data.username}/${data.repoName})
+  ![alt text](https://img.shields.io/github/issues-closed/${data.username}/${data.repoName})
 `;
 }
 
