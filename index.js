@@ -2,9 +2,10 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const axios = require("axios");
 const markdownGenerator = require("./Develop/utils/generateMarkdown");
-const data = {};
 const licenseGenerator = require("./Develop/utils/generateLicense");
+const data = {};
 
+//Initializes inquirer and prompts for user input
 inquirer
     .prompt([
         {
@@ -53,7 +54,7 @@ inquirer
             name: "contribute"
         }
     ]).then((input) => {
-
+        //creates data object
         const { username, repoName, title, description, installation, usage, credit, tests, contribute } = input
 
         data.title = title
@@ -65,7 +66,7 @@ inquirer
         data.contribute = contribute
         data.repoName = repoName
         data.username = username
-
+        //call to get Github email and picture based on username
         const queryUrl = `https://api.github.com/users/${username}/events/public`;
         axios
             .get(queryUrl)
@@ -79,18 +80,8 @@ inquirer
                     } 
                 })
                 
-                //     let pushEvertArray = res.data.filter(githubData => {
-                //         return githubData.type === "PushEvent";
-
-                //     })
-
-                //     console.log(pushEvertArray[0])
-                // githubEmail = pushEvertArray[0].payload.commits[0].author.email
-                // githubProfilePic = pushEvertArray[0].actor.avatar_url;
                 data.githubProfilePic = githubProfilePic;
                 data.githubEmail = githubEmail;
-
-                console.log(data);
 
                 const README = markdownGenerator(data);
 
@@ -100,11 +91,11 @@ inquirer
 
                         data.name = res.data.name
                         const LICENSE = licenseGenerator(data);
-
+                        //creates MIT license file
                         fs.writeFile("./LICENSE.txt", LICENSE, (err) => {
                             console.log("Success!");
                         });
-
+                        //creates README file
                         fs.writeFile("./README.md", README,  (err) => {
                             console.log("Success!");
                         })

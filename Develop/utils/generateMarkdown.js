@@ -1,15 +1,14 @@
 const fs = require("fs");
 const axios = require("axios");
-
+//function to generate README data
 function generateMarkdown(data) {
   
   return `
-  # Your Project Title
-  ${data.title};
-
+  # ${data.title}
+  
   ## Description 
   
-  ${data.description};
+  ${data.description}
   
   ## Table of Contents
 
@@ -24,6 +23,8 @@ function generateMarkdown(data) {
 * [Tests](#Tests)
 
 * [Questions](#Questions)
+
+* [Licenses] (#License)
 
   ## Installation
     

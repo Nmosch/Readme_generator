@@ -1,6 +1,6 @@
 const moment = require("moment");
 const axios = require("axios");
-
+//function to generate license data
 function generateLicense(data) {
 
     const currentYear = moment().format(`YYYY`);
