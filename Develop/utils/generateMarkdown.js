@@ -24,7 +24,7 @@ function generateMarkdown(data) {
 
 * [Questions](#Questions)
 
-* [Licenses] (#License)
+* [License] (#License)
 
   ## Installation
     
