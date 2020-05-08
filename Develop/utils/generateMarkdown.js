@@ -24,7 +24,7 @@ function generateMarkdown(data) {
 
 * [Questions](#Questions)
 
-* [License] (#License)
+* [Badges] (#Badges)
 
   ## Installation
     
@@ -52,7 +52,7 @@ function generateMarkdown(data) {
 
   Contact me with questions at ${data.githubEmail}
 
-  ## License
+  ## Badges
   
   ![alt text](https://img.shields.io/github/license/${data.username}/${data.repoName})
   ![alt text](https://img.shields.io/github/issues-closed/${data.username}/${data.repoName})
